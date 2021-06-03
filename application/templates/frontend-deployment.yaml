@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: {{ .Values.app.name }}
   labels:
     app.kubernetes.io/name: guestbook
     app.kubernetes.io/component: frontend
@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: guestbook
       app.kubernetes.io/component: frontend
-  replicas: 3
+  replicas: {{ .Values.app.replicaCount }}
   template:
     metadata:
       labels:
@@ -18,16 +18,11 @@ spec:
         app.kubernetes.io/component: frontend
     spec:
       containers:
-      - name: guestbook
-        image: paulczar/gb-frontend:v5
-        # image: gcr.io/google-samples/gb-frontend:v4
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
+      - name: {{ .Values.app.container.name }}
+        image: {{ .Values.app.container.image }}
         env:
-        - name: GET_HOSTS_FROM
-          value: dns
+        - name: {{ .Values.env.name }}
+          value: {{ .Values.env.value }} 
         ports:
-        - containerPort: 80
+        - containerPort: {{ .Values.app.container.port }}
 
