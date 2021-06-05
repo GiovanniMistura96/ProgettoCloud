@@ -13,3 +13,6 @@ db:
     volume:
       path: /data/db
 
+service:
+  port: 27017
+  type: ClusterIP
