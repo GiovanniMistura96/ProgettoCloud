@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo
+  name: {{ .Values.db.name }}
   labels:
     app.kubernetes.io/name: mongo
     app.kubernetes.io/component: backend
@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: mongo
       app.kubernetes.io/component: backend
-  replicas: 1
+  replicas: {{ .Values.db.replicaCount }}
   template:
     metadata:
       labels:
@@ -18,17 +18,15 @@ spec:
         app.kubernetes.io/component: backend
     spec:
       containers:
-      - name: mongo
-        image: mongo:4.2
-        args:
-          - --bind_ip
-          - 0.0.0.0
+      - name: {{ .Values.db.containers.name }} 
+        image: {{ .Values.db.containers.image}}
+        args: {{ toYaml .args |  }} ## v possibile errore
         resources:
         ports:
-        - containerPort: 27017
+        - containerPort: {{ .Values.db.containers.port }}
         volumeMounts:
         - name: volume
-          mountPath: /data/db
+          mountPath: {{ .Values.db.containers.volume.path }}
       volumes:
       - name: volume
         persistentVolumeClaim:
