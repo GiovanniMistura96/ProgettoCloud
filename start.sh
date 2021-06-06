@@ -8,5 +8,4 @@ helm install frontend ./application
 
 echo "Sleeping for 20"
 sleep 20
-kubectl port-forward svc/frontend 8080:80 &
-
+kubectl port-forward svc/frontend 8081:80  > /dev/null 2>&1 & 
