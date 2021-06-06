@@ -16,3 +16,8 @@ db:
 service:
   port: 27017
   type: ClusterIP
+  targetPort : 27017
+
+pvc:
+  resources:
+    storageSize: 1Gi
