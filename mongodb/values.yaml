@@ -2,7 +2,7 @@
 
 db:
   name: mongo
-  replicaCount: 2
+  replicaCount: 1
   containers:
     name: mongo
     image: mongo:4.2
